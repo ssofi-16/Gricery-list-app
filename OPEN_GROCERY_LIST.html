@@ -122,7 +122,7 @@
         border-radius: 10px;
         color: var(--accent);
         background: var(--accent-bg);
-        font-size: 26px;
+        font-size: 25px;
         font-weight: 800;
       }
 
@@ -271,14 +271,11 @@
       .actions {
         display: flex;
         gap: 6px;
-        flex-wrap: wrap;
-        justify-content: flex-end;
       }
 
       .icon {
-        min-width: 58px;
+        width: 40px;
         height: 40px;
-        padding: 0 10px;
         color: var(--secondary-text);
         background: var(--secondary);
       }
@@ -460,7 +457,7 @@
     <main class="page">
       <section class="app">
         <header class="top">
-          <div class="mark">🛒</div>
+          <div class="mark">GL</div>
           <div>
             <h1 data-i18n="title">Grocery List</h1>
             <p class="hint" data-i18n="hint">Add items, check them off, then share the live list.</p>
@@ -474,7 +471,6 @@
               <option value="es">Español</option>
             </select>
             <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">Dark</button>
-            <button class="secondary settings-btn" id="privacy-button" type="button" data-i18n="privacyShort">Privacy</button>
           </div>
         </div>
 
@@ -497,7 +493,7 @@
 
         <ul class="list" id="list"></ul>
         <div class="empty" id="empty">
-          <div>🛒</div>
+          <div>GL</div>
           <p data-i18n="noItems">No items yet.</p>
         </div>
       </section>
@@ -559,8 +555,7 @@
           shareText: "Join my grocery list",
           privacyRequired: "You must accept the privacy notice to use this app.",
           darkMode: "Dark",
-          lightMode: "Light",
-          privacyShort: "Privacy"
+          lightMode: "Light"
         },
         es: {
           title: "Lista de Compras",
@@ -568,13 +563,13 @@
           creating: "Creando tu lista de compras...",
           addItem: "Agregar leche, manzanas, café...",
           share: "Compartir",
-          clearChecked: "Limpiar Marcados",
-          clearAll: "Limpiar Todo",
+          clearChecked: "Eliminar Marcados",
+          clearAll: "Eliminar Todo",
           noItems: "Sin artículos aún.",
           notPublished: "Esta aplicación aún no está publicada. Por favor abre el enlace del sitio web público.",
           notReady: "Esta lista de compras aún no está lista. Por favor intenta más tarde.",
           listNotFound: "Esa lista compartida no se encontró, así que se creó un nuevo enlace.",
-          listReady: "Tu lista en vivo está lista. Toca Compartir para invitar a alguien.",
+          listReady: "Tu lista en vivo está lista. Toca Compartir para invitar a alguien."
           createFailed: "La aplicación no pudo crear un enlace para compartir aún. Por favor intenta actualizar.",
           loadFailed: "No se pudieron cargar los artículos aún. Por favor actualiza en un momento.",
           privacyTitle: "Aviso de Privacidad",
@@ -595,17 +590,14 @@
           shareText: "Unete a mi lista de compras",
           privacyRequired: "Debes aceptar el aviso de privacidad para usar esta app.",
           darkMode: "Oscuro",
-          lightMode: "Claro",
-          privacyShort: "Privacidad"
+          lightMode: "Claro"
         }
       };
 
       // Current language
-      const privacyVersion = "2026-04-26";
       let currentLang = localStorage.getItem("grocery-lang") || "en";
       let currentTheme = localStorage.getItem("grocery-theme") || "light";
-      let privacyAccepted =
-        localStorage.getItem("grocery-privacy-version") === privacyVersion;
+      let privacyAccepted = localStorage.getItem("grocery-privacy") === "true";
 
       // Undo functionality
       let lastDeletedItems = [];
@@ -631,7 +623,6 @@
       const clearCheckedBtn = document.querySelector("#clear-checked-btn");
       const clearAllBtn = document.querySelector("#clear-all-btn");
       const privacyModal = document.querySelector("#privacy-modal");
-      const privacyButton = document.querySelector("#privacy-button");
       const privacyAccept = document.querySelector("#privacy-accept");
       const privacyDecline = document.querySelector("#privacy-decline");
       const undoToast = document.querySelector("#undo-toast");
@@ -1069,7 +1060,7 @@
       // Privacy modal handlers
       privacyAccept.addEventListener("click", () => {
         privacyAccepted = true;
-        localStorage.setItem("grocery-privacy-version", privacyVersion);
+        localStorage.setItem("grocery-privacy", "true");
         privacyModal.classList.remove("show");
         start();
       });
@@ -1077,10 +1068,6 @@
       privacyDecline.addEventListener("click", () => {
         privacyModal.classList.remove("show");
         lockApp(t("privacyRequired"));
-      });
-
-      privacyButton.addEventListener("click", () => {
-        privacyModal.classList.add("show");
       });
     </script>
   </body>
